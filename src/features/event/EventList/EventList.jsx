@@ -7,6 +7,7 @@ class EventList extends Component {
     return (
       <Fragment>
         {
+          events &&
           events.map(event => (
             <EventListItem event={event} key={event.id} />
           ))
