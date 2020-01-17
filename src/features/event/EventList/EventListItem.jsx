@@ -34,7 +34,6 @@ class EventListItem extends Component {
                 <EventListAttendee attendee={attendee} key={attendee.id} />
               ))
             }
-            
           </List>
         </Segment>
         <Segment clearing>
