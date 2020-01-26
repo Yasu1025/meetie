@@ -12,8 +12,6 @@ import { configureStore } from './app/store/configureStore';
 const store = configureStore();
 const rootEl = document.getElementById('root');
 
-console.log(store.getState())
-
 let render = () => {
   ReactDOM.render(
     <Provider store={store}>
@@ -24,7 +22,6 @@ let render = () => {
     rootEl
   );
 }
-
 
 if(module.hot) {
   module.hot.accept('./app/layout/App', () => {
