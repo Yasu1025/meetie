@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Grid, Button } from 'semantic-ui-react'
 import cuid from 'cuid'
+
+import { createEvent, updateEvent, deleteEvent } from '../eventActions'
 
 // Components
 import EventList from '../EventList/EventList'
 import EventForm from '../EventForm/EventForm'
 
+const mapState = (state) => ({
+  events: state.events
+})
+
+const actions = {
+  createEvent,
+  updateEvent,
+  deleteEvent
+}
 
 class EventDashboard extends Component {
   state = {
-    events: events,
     selectedEvent: null,
     isOpen: false
   }
-
-  // handleIsOpenToggle = () => {
-  //   this.setState(({ isOpen }) => ({
-  //     isOpen: !isOpen
-  //   }))
-  // }
 
   handleCreateFormOpen = () => {
     this.setState({
@@ -36,8 +41,8 @@ class EventDashboard extends Component {
   handleCreateEvent = (newEvent) => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = 'assets/images/user.png';
+    this.props.createEvent(newEvent)
     this.setState(({events}) => ({
-      events: [...events, newEvent],
       isOpen: false
     }))
   }
@@ -50,27 +55,20 @@ class EventDashboard extends Component {
   }
 
   handleUpdateEvent = (updatedEvent) => {
-    this.setState(({events}) => ({
-      events: events.map(event => {
-        if(event.id === updatedEvent.id) {
-          return {...updatedEvent}
-        } else {
-          return event
-        }
-      }),
+    this.props.updateEvent(updatedEvent);
+    this.setState(() => ({
       selectedEvent: null,
       isOpen: false
     }))
   }
 
   handleDeleteEvent = (id) => {
-    this.setState(({events}) => ({
-      events: events.filter(event => event.id !== id)
-    }))
+    this.props.deleteEvent(id)
   }
 
   render() {
-    const { events, isOpen, selectedEvent } = this.state;
+    const { isOpen, selectedEvent } = this.state;
+    const { events } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -95,4 +93,4 @@ class EventDashboard extends Component {
   }
 }
 
-export default EventDashboard
+export default connect(mapState, actions)(EventDashboard)

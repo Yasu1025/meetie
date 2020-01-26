@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 
 import App from './app/layout/App';
 import { configureStore } from './app/store/configureStore';
+import ScrollTop from './app/common/util/ScrollTop';
 
 const store = configureStore();
 const rootEl = document.getElementById('root');
@@ -16,7 +17,9 @@ let render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ScrollTop>
+          <App />
+        </ScrollTop>
       </BrowserRouter>
     </Provider>,
     rootEl
